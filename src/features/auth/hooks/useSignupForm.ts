@@ -8,7 +8,9 @@ import {
   Step2Errors,
   UserFormErrors,
   SignupType,
+  RegisterOrgData,
 } from "../types";
+import { useRegisterOrg } from "./useAuth";
 
 const isValidUrl = (url: string): boolean => {
   if (!url) return true;
@@ -31,6 +33,10 @@ export function useSignupForm() {
   const [step1Errors, setStep1Errors] = useState<Step1Errors>({});
   const [step2Errors, setStep2Errors] = useState<Step2Errors>({});
   const [userFormErrors, setUserFormErrors] = useState<UserFormErrors>({});
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  // API mutations
+  const registerOrgMutation = useRegisterOrg();
 
   const [orgFormData, setOrgFormData] = useState<OrgFormData>({
     name: "",
@@ -188,13 +194,35 @@ export function useSignupForm() {
     }
   };
 
-  const handleOrgSubmit = (e: React.FormEvent) => {
+  const handleOrgSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateStep2()) {
       return;
     }
-    // Will handle API call in next step
-    console.log("Organization signup:", orgFormData);
+    
+    setApiError(null);
+    
+    // Prepare data for API (exclude confirm_password)
+    const registerData: RegisterOrgData = {
+      name: orgFormData.name,
+      subdomain: orgFormData.subdomain,
+      description: orgFormData.description,
+      website: orgFormData.website || null,
+      ABN: orgFormData.ABN || null,
+      type: orgFormData.type || null,
+      country: orgFormData.country || null,
+      first_name: orgFormData.first_name,
+      last_name: orgFormData.last_name,
+      user_email: orgFormData.user_email,
+      user_password: orgFormData.user_password,
+    };
+    
+    try {
+      await registerOrgMutation.mutateAsync(registerData);
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      setApiError(err.response?.data?.message || "Registration failed. Please try again.");
+    }
   };
 
   const handleUserSubmit = (e: React.FormEvent) => {
@@ -227,6 +255,8 @@ export function useSignupForm() {
     userFormErrors,
     orgFormData,
     userFormData,
+    apiError,
+    isLoading: registerOrgMutation.isPending,
 
     // Setters
     setSignupType,

@@ -10,6 +10,7 @@ import {
   Mail,
   Lock,
   Check,
+  Loader2,
 } from "lucide-react";
 import {
   OrganizationFormProps,
@@ -27,6 +28,8 @@ export function OrganizationForm({
   websiteError,
   showPassword,
   showConfirmPassword,
+  isLoading,
+  apiError,
   onBack,
   onChange,
   onContinue,
@@ -93,6 +96,8 @@ export function OrganizationForm({
               errors={step2Errors}
               showPassword={showPassword}
               showConfirmPassword={showConfirmPassword}
+              isLoading={isLoading}
+              apiError={apiError}
               onChange={onChange}
               onBack={() => onSetStep(1)}
               onTogglePassword={onTogglePassword}
@@ -308,6 +313,8 @@ function Step2Form({
   errors,
   showPassword,
   showConfirmPassword,
+  isLoading,
+  apiError,
   onChange,
   onBack,
   onTogglePassword,
@@ -464,19 +471,35 @@ function Step2Form({
         )}
       </div>
 
+      {/* API Error */}
+      {apiError && (
+        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+          <p className="text-sm text-red-500">{apiError}</p>
+        </div>
+      )}
+
       <div className="flex gap-4">
         <button
           type="button"
           onClick={onBack}
-          className="flex-1 py-3 border border-border hover:border-primary text-foreground font-medium rounded-lg transition-colors"
+          disabled={isLoading}
+          className="flex-1 py-3 border border-border hover:border-primary text-foreground font-medium rounded-lg transition-colors disabled:opacity-50"
         >
           Back
         </button>
         <button
           type="submit"
-          className="flex-1 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors"
+          disabled={isLoading}
+          className="flex-1 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          Create Organization
+          {isLoading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Creating...
+            </>
+          ) : (
+            "Create Organization"
+          )}
         </button>
       </div>
     </motion.div>

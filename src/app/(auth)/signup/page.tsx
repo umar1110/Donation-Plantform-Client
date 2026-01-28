@@ -22,6 +22,8 @@ export default function SignupPage() {
     userFormErrors,
     orgFormData,
     userFormData,
+    apiError,
+    isLoading,
     setSignupType,
     setStep,
     setShowPassword,
@@ -101,6 +103,8 @@ export default function SignupPage() {
                 websiteError={websiteError}
                 showPassword={showPassword}
                 showConfirmPassword={showConfirmPassword}
+                isLoading={isLoading}
+                apiError={apiError}
                 onBack={() => setSignupType(null)}
                 onChange={handleOrgChange}
                 onContinue={handleContinueToStep2}

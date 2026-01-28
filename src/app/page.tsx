@@ -134,7 +134,7 @@ export default function Home() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="max-w-4xl mx-auto text-center p-12 rounded-2xl bg-gradient-to-br from-primary to-primary-dark"
+            className="max-w-4xl mx-auto text-center p-12 rounded-2xl bg-linear-to-br from-primary to-primary-dark"
           >
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
               Ready to Start?

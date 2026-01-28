@@ -1,5 +1,23 @@
 export type SignupType = "organization" | "user" | null;
 
+// API Request Types (matches backend schema)
+export interface RegisterOrgData {
+  // Organization fields
+  name: string;
+  subdomain: string;
+  description: string;
+  website?: string | null;
+  ABN?: string | null;
+  type?: string | null;
+  country?: string | null;
+  // Owner fields
+  first_name: string;
+  last_name: string;
+  user_email: string;
+  user_password: string;
+}
+
+// Form Data Types (includes confirm_password for validation)
 export interface OrgFormData {
   // Organization fields
   name: string;
@@ -79,6 +97,8 @@ export interface OrganizationFormProps {
   websiteError: string | null;
   showPassword: boolean;
   showConfirmPassword: boolean;
+  isLoading?: boolean;
+  apiError?: string | null;
   onBack: () => void;
   onChange: (
     e: React.ChangeEvent<
@@ -109,6 +129,8 @@ export interface Step2FormProps {
   errors: Step2Errors;
   showPassword: boolean;
   showConfirmPassword: boolean;
+  isLoading?: boolean;
+  apiError?: string | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBack: () => void;
   onTogglePassword: () => void;
