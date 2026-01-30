@@ -9,7 +9,8 @@ export interface RegisterOrgData {
   website?: string | null;
   ABN?: string | null;
   type?: string | null;
-  country?: string | null;
+  country: string;
+  address: string;
   // Owner fields
   first_name: string;
   last_name: string;
@@ -27,6 +28,7 @@ export interface OrgFormData {
   ABN: string;
   type: string;
   country: string;
+  address: string;
   // Owner fields
   first_name: string;
   last_name: string;
@@ -49,6 +51,7 @@ export interface Step1Errors {
   description?: string;
   type?: string;
   country?: string;
+  address?: string;
 }
 
 export interface Step2Errors {

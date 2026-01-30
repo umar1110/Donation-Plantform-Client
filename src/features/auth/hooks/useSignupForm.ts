@@ -46,6 +46,7 @@ export function useSignupForm() {
     ABN: "",
     type: "",
     country: "",
+    address: "",
     first_name: "",
     last_name: "",
     user_email: "",
@@ -78,6 +79,11 @@ export function useSignupForm() {
     }
     if (!orgFormData.country) {
       errors.country = "Country is required";
+    }
+    if (!orgFormData.address.trim()) {
+      errors.address = "Address is required";
+    } else if (orgFormData.address.trim().length < 5) {
+      errors.address = "Address must be at least 5 characters";
     }
 
     setStep1Errors(errors);
@@ -210,7 +216,8 @@ export function useSignupForm() {
       website: orgFormData.website || null,
       ABN: orgFormData.ABN || null,
       type: orgFormData.type || null,
-      country: orgFormData.country || null,
+      country: orgFormData.country,
+      address: orgFormData.address,
       first_name: orgFormData.first_name,
       last_name: orgFormData.last_name,
       user_email: orgFormData.user_email,

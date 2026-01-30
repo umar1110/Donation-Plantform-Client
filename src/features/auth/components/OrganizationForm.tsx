@@ -260,6 +260,27 @@ function Step1Form({
 
       <div>
         <label className="block text-sm font-medium text-foreground mb-2">
+          Address *
+        </label>
+        <textarea
+          name="address"
+          value={formData.address}
+          onChange={onChange}
+          placeholder="Enter your organization's full address..."
+          rows={2}
+          className={`w-full px-4 py-3 rounded-lg border bg-background text-foreground placeholder:text-muted focus:outline-none focus:ring-2 transition-colors resize-none ${
+            errors.address
+              ? "border-red-500 focus:ring-red-500/50 focus:border-red-500"
+              : "border-border focus:ring-primary/50 focus:border-primary"
+          }`}
+        />
+        {errors.address && (
+          <p className="mt-1 text-sm text-red-500">{errors.address}</p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-foreground mb-2">
           Website
         </label>
         <div className="relative">
