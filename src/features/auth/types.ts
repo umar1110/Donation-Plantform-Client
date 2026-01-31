@@ -10,6 +10,8 @@ export interface RegisterOrgData {
   ABN?: string | null;
   type?: string | null;
   country: string;
+  state_province: string;
+  city: string;
   address: string;
   // Owner fields
   first_name: string;
@@ -28,6 +30,8 @@ export interface OrgFormData {
   ABN: string;
   type: string;
   country: string;
+  state_province: string;
+  city: string;
   address: string;
   // Owner fields
   first_name: string;
@@ -51,6 +55,8 @@ export interface Step1Errors {
   description?: string;
   type?: string;
   country?: string;
+  state_province?: string;
+  city?: string;
   address?: string;
 }
 

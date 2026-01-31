@@ -46,6 +46,8 @@ export function useSignupForm() {
     ABN: "",
     type: "",
     country: "",
+    state_province: "",
+    city: "",
     address: "",
     first_name: "",
     last_name: "",
@@ -79,6 +81,13 @@ export function useSignupForm() {
     }
     if (!orgFormData.country) {
       errors.country = "Country is required";
+    }
+
+    if (!orgFormData.state_province.trim()) {
+      errors.state_province = "State/Province is required";
+    }
+    if (!orgFormData.city.trim()) {
+      errors.city = "City is required";
     }
     if (!orgFormData.address.trim()) {
       errors.address = "Address is required";
@@ -217,6 +226,8 @@ export function useSignupForm() {
       ABN: orgFormData.ABN || null,
       type: orgFormData.type || null,
       country: orgFormData.country,
+      state_province: orgFormData.state_province,
+      city: orgFormData.city,
       address: orgFormData.address,
       first_name: orgFormData.first_name,
       last_name: orgFormData.last_name,

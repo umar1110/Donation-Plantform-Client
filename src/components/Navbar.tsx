@@ -4,10 +4,18 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/src/providers";
+import { useAuthStore } from "../stores/auth.store";
+import { useLogout } from "@/src/features/auth/hooks";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const { accessToken } = useAuthStore();
+  const isLoggedIn = !!accessToken;
+  const logoutMutation = useLogout();
 
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
@@ -40,18 +48,38 @@ export default function Navbar() {
                 <Sun className="w-5 h-5" />
               )}
             </button>
-            <Link
-              href="/login"
-              className="px-4 py-2 text-sm font-medium text-muted hover:text-foreground transition-colors"
-            >
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors"
-            >
-              Sign Up
-            </Link>
+            {!isLoggedIn ? (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-sm font-medium text-muted hover:text-foreground transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-sm font-medium text-muted hover:text-foreground hover:bg-border/50 rounded-lg transition-colors"
+                  disabled={logoutMutation.isPending}
+                >
+                  {logoutMutation.isPending ? "Logging out..." : "Logout"}
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
