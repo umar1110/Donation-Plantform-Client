@@ -57,7 +57,7 @@ export function useMe() {
       const { data } = await api.get('/auth/me')
       // Update user in store
       if (data) {
-        setUser(data)
+        setUser(data.data)
       }
       return data
     },

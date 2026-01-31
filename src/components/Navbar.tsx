@@ -4,10 +4,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/src/providers";
+import { useAuthStore } from "../stores/auth.store";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
-
+  const { accessToken } = useAuthStore();
+  const isLoggedIn = accessToken != null;
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
@@ -41,17 +43,34 @@ export default function Navbar() {
               )}
             </button>
             <Link
-              href="/login"
+              href="/receipts"
               className="px-4 py-2 text-sm font-medium text-muted hover:text-foreground transition-colors"
             >
-              Login
+              Receipts
             </Link>
-            <Link
-              href="/signup"
-              className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors"
-            >
-              Sign Up
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                href="/dashboard"
+                className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-sm font-medium text-muted hover:text-foreground transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
